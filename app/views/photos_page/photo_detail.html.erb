@@ -1,0 +1,99 @@
+
+    <h1>Photo Details</h1>
+
+<dl>
+  <dt>
+    Image
+  </dt>
+  <dd>
+    <img src="<%= @picture.image %>" height="300px">
+  </dd>
+
+  <dt>
+    Caption
+  </dt>
+  <dd>
+    <p>
+      <%= @picture.caption %>
+    </p>
+  </dd>
+
+  <dt>
+    Owner
+  </dt>
+  <dd>
+    <%=  @picture.poster.username %>
+  </dd>
+
+  <dt>
+    Posted
+  </dt>
+  <dd>
+    <%=  @picture.created_at %>
+  </dd>
+
+  <dt>
+    Edit photo
+  </dt>
+  <dd>
+    <form action="/update_photo/<%= @picture.id %>" method="post">
+      <label for="browser_image">Image</label>
+      <input id="browser_image" type="text" name="input_image" placeholder="Enter a URL for the image..." value="<%= @picture.image %>">
+
+      <label for="browser_caption">Caption</label>
+      <textarea id="browser_caption" name="input_caption" placeholder="Enter a caption for the photo..."><%= @picture.caption %></textarea>
+
+      <button type="submit">Update photo</button>
+    </form>
+  </dd>
+
+  <dt>
+    Delete photo
+  </dt>
+  <dd>
+    <a href="/delete_photo/ <%= @picture.id %>">
+      Delete this photo
+    </a>
+  </dd>
+</dl>
+
+<h2>Comments</h2>
+
+<table border="1">
+  <tr>
+    <th>
+      Commenter
+    </th>
+
+    <th>
+      Comment
+    </th>
+
+    <th>
+      Posted
+    </th>
+  </tr>
+
+ <% @picture.comments.each do |comment| %>
+    <tr>
+      <td><%= comment.commenter.username %></td>
+      <td><%= comment.body %></td>
+      <td><%= comment.created_at %></td>
+    </tr>
+ <% end %>
+</table>
+
+<h3>Add a new comment</h3>
+
+<form action="/add_comment" method="post">
+  <label for="browser_photo_id">Photo ID</label>
+  <input id="browser_photo_id" type="text" placeholder="Enter the photo ID" name="input_photo_id" value="<%= @picture.id %>">
+
+  <label for="browser_author_id">Author ID</label>
+  <input id="browser_author_id" type="text" placeholder="Enter your author ID" name="input_author_id" >
+
+  <label for="browser_comment">Comment</label>
+  <textarea id="browser_comment" type="text" placeholder="Enter a comment..." name="input_comment"></textarea>
+
+  <button type="submit">Add comment</button>
+</form>
